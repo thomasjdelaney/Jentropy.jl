@@ -33,7 +33,7 @@ PX = zeros(X_dimension) # will hold the X probabilities eventually
 PXY = zeros(X_dimension, Y_dimension)
 
 d_X = X # I think this is supposed to be a 1D version of X
-d_Y = Y # "
+d_Y = Y # '' 
 
 function prob(d_X, X_m, method="naive")
 	bin_counts = hist(d_X, X_m)[2] # bin the random variable and return the count for each bin.
