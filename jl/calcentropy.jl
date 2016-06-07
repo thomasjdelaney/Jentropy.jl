@@ -8,6 +8,8 @@ using StatsBase
 root = string(homedir(), "/Jentropy")
 data_dir = "$root/data"
 exp_frame = readtable("$data_dir/P38_2_psth.csv")
+res_frame = readtable("$data_dir/P38_2_pyentropy.csv")
+resp_frame = readtable("$data_dir/P38_2_resp.csv")
 response = convert(Array{Int}, exp_frame[:spike_count]) # response and stimulus must be integer arrays
 stimulus = convert(Array{Int}, exp_frame[:adj_stimulus]) # response and stimulus must be integer arrays
 method = "plugin" # will need more eventually
@@ -67,7 +69,12 @@ PX = prob(d_X, X_m)
 PY = prob(d_Y, Y_m)
 Ny, PXY = condProb(d_X, d_Y, X_dimension, Y_dimension)
 
-function jentropy(prob_dist)
+function jentropy(prob_dist::Array{Float64, 1})
+	masked_prob_dist = filter(p -> p > eps(Float64), prob_dist)
+	return -sum(masked_prob_dist .* log2(masked_prob_dist))
+end
+
+function jentropy(prob_dist::Array{Float64, 2})
   ents = zeros(size(prob_dist, 2))
 	for i=1:size(prob_dist, 2)
 		masked_prob_dist = filter(p -> p > eps(Float64), prob_dist[i, :])
@@ -78,6 +85,7 @@ end
 
 HX = jentropy(PX)
 HY = jentropy(PY)
+
 
 # need to start writing the actual function here.
 # there's a function in the 'StatsBase' package named entropy
