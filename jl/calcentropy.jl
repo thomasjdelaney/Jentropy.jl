@@ -3,6 +3,7 @@
 # Bias error reduction techniques are also implementable
 
 using DataFrames
+using StatsBase
 
 root = string(homedir(), "/Jentropy")
 data_dir = "$root/data"
@@ -33,13 +34,13 @@ PX = zeros(X_dimension) # will hold the X probabilities eventually
 PXY = zeros(X_dimension, Y_dimension)
 
 d_X = X # I think this is supposed to be a 1D version of X
-d_Y = Y # '' 
+d_Y = Y # ''
 
 function prob(d_X, X_m, method="naive")
 	bin_counts = hist(d_X, X_m)[2] # bin the random variable and return the count for each bin.
 	if length(bin_counts) < X_m
 		bin_counts = vcat(bin_counts, zeros(eltype(bin_counts), X_m - length(bin_counts)))
-	end 
+	end
 	if method == "naive"
 		probs = bin_counts/length(d_X)
 	end
@@ -66,13 +67,18 @@ PX = prob(d_X, X_m)
 PY = prob(d_Y, Y_m)
 Ny, PXY = condProb(d_X, d_Y, X_dimension, Y_dimension)
 
-function entropy(prob_dist)
-	for 
-		masked_prob_dist = filter(p -> p > eps(Float64), prob_dist)
-		return -sum(masked_prob_dist .* log2(masked_prob_dist))
+function jentropy(prob_dist)
+  ents = zeros(size(prob_dist, 2))
+	for i=1:size(prob_dist, 2)
+		masked_prob_dist = filter(p -> p > eps(Float64), prob_dist[i, :])
+		ents[i] = -sum(masked_prob_dist .* log2(masked_prob_dist))
+  end
+  return ents
 end
-	
-HX = entropy(PX)
-HY = entropy(PY)
+
+HX = jentropy(PX)
+HY = jentropy(PY)
 
 # need to start writing the actual function here.
+# there's a function in the 'StatsBase' package named entropy
+# I need to read about this
