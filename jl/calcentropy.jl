@@ -5,6 +5,10 @@
 using DataFrames
 using StatsBase
 
+include("prob.jl")
+include("condProb.jl")
+include("condEntropy.jl")
+
 root = string(homedir(), "/Jentropy")
 data_dir = "$root/data"
 exp_frame = readtable("$data_dir/P38_2_psth.csv")
@@ -38,47 +42,14 @@ PXY = zeros(X_dimension, Y_dimension)
 d_X = X # I think this is supposed to be a 1D version of X
 d_Y = Y # ''
 
-function prob(d_X, X_m, method="naive")
-	bin_counts = hist(d_X, X_m)[2] # bin the random variable and return the count for each bin.
-	if length(bin_counts) < X_m
-		bin_counts = vcat(bin_counts, zeros(eltype(bin_counts), X_m - length(bin_counts)))
-	end
-	if method == "naive"
-		probs = bin_counts/length(d_X)
-	end
-	return probs
-end
-
-function condProb(d_X, d_Y, X_dimension, Y_dimension)
-	Ny = zeros(Int, Y_dimension)
-	PXY = zeros(X_dimension, Y_dimension)
-	for i in unique(d_Y) # looping through all the potential Y values
-		inds = find(i .== d_Y) # the trials where Y = i
-		Ny[find(i .== unique(d_Y))] = length(inds)
-		matching_output = d_X[inds] # output conditional ensemble
-		if length(matching_output) > 0
-			PXY[:, i+1] = prob(matching_output, X_dimension)
-		else
-			println("WARNING: Null output conditional ensemble for output = ", string(i))
-		end
-	end
-	return Ny, PXY
-end
-
 PX = prob(d_X, X_m)
 PY = prob(d_Y, Y_m)
 Ny, PXY = condProb(d_X, d_Y, X_dimension, Y_dimension)
 
-function condEntropy(marg_dist::Array{Float64, 1}, cond_dists::Array{Float64}, base)
-	# dists = Array{Float64}, each vector should be a conditional distribution
-	length(marg_dist) == size(cond_dists)[2] || error("Number of marginal and conditional distributions does not match!")
-	ents = [entropy(cond_dists[:, i], base) for i = 1:size(cond_dists)[2]]
-	return sum(marg_dist .* ents)
-end
-
 HX = entropy(PX, 2)
 HY = entropy(PY, 2)
 HXY = condEntropy(PY, PXY, 2)
+I = HX - HXY
 
 # need to start writing the actual function here.
 # there's a function in the 'StatsBase' package named entropy
