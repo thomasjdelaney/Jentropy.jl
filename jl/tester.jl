@@ -9,6 +9,7 @@ include("prob.jl")
 include("condProb.jl")
 include("condEntropy.jl")
 include("atleast2d.jl")
+include("checkinputs.jl")
 
 root = string(homedir(), "/Jentropy")
 data_dir = "$root/data"
@@ -22,10 +23,10 @@ sampling = "naive"
 calc = ["HX", "HXY"]
 
 # initialising type constants
-X = response
-Y = stimulus
-Y_dimensions = [ndims(Y), 1 + maximum(Y)]
-X_dimensions = [ndims(X), 1 + maximum(X)]
+x = response
+y = stimulus
+ydims = [length(Y), 1 + maximum(Y)]
+xdims = [length(X), 1 + maximum(X)]
 X_n = X_dimensions[1]
 X_m = X_dimensions[2]
 Y_n = Y_dimensions[1]
@@ -45,7 +46,7 @@ d_Y = Y # ''
 
 PX = prob(d_X, X_m)
 PY = prob(d_Y, Y_m)
-Ny, PXY = condProb(d_X, d_Y, X_dimension, Y_dimension)
+Ny, PXY = condprob(d_X, d_Y, X_dimension, Y_dimension)
 
 HX = entropy(PX, 2)
 HY = entropy(PY, 2)

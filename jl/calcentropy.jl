@@ -8,6 +8,7 @@
 # method = sampling bias correction method ex: "pt"
 # sampling = method for sampling ex: "naive"
 function calcentropy(x::Array{Int}, y::Array{Int}, xdims::Array{Int, 2}, ydims::Array{Int, 2}, calc::Array{ASCIIString, 1}, method::ASCIIString, sampling::ASCIIString)
+  # initialising and checking
   xn, xmax = xdims
   yn, ymax = ydims
   x = atleast2d(x)
