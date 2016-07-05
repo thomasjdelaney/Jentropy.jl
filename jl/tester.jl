@@ -10,6 +10,9 @@ include("condProb.jl")
 include("condEntropy.jl")
 include("atleast2d.jl")
 include("checkinputs.jl")
+include("requireprobs.jl")
+include("requireents.jl")
+include("calcentropy.jl")
 
 root = string(homedir(), "/Jentropy")
 data_dir = "$root/data"
@@ -25,8 +28,8 @@ calc = ["HX", "HXY"]
 # initialising type constants
 x = response
 y = stimulus
-ydims = [length(Y), 1 + maximum(Y)]
-xdims = [length(X), 1 + maximum(X)]
+ydims = [length(y), 1 + maximum(y)]
+xdims = [length(x), 1 + maximum(X)]
 X_n = X_dimensions[1]
 X_m = X_dimensions[2]
 Y_n = Y_dimensions[1]

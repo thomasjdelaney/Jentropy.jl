@@ -14,3 +14,6 @@ function calcentropy(x::Array{Int}, y::Array{Int}, xdims::Array{Int, 2}, ydims::
   x = atleast2d(x)
   y = atleast2d(y)
   checkinputs(x, y, xmax, ymax, xn, yn)
+  probs = requireprobs(x, xmax, y, ymax, calc)
+  return requireents(probs, calc)
+end
