@@ -1,6 +1,6 @@
 # for the prob function specifically
 
-function prob(d_X::Array{Int}, X_m::Int, method="naive")
+function prob(d_X::Array{Int}, X_m::Int, method::ASCIIString)
   # d_X = array, the random variable
 	bin_counts = hist(d_X, X_m)[2] # bin the random variable and return the count for each bin.
 	if length(bin_counts) < X_m
