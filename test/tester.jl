@@ -5,6 +5,8 @@
 using DataFrames
 using StatsBase
 
+root = string(homedir(), "/Jentropy")
+
 include("prob.jl")
 include("condProb.jl")
 include("condEntropy.jl")
