@@ -14,6 +14,14 @@ function calcentropy(x::Array{Int}, y::Array{Int}, xdims::Array{Int, 1}, ydims::
   x = atleast2d(x)
   y = atleast2d(y)
   checkinputs(x, y, xmax, ymax, xn, yn)
-  probs = requireprobs(x, xmax, y, ymax, calc)
+  probs = requireprobs(x, xmax, y, ymax, calc, sampling)
+  return requireents(probs, calc)
+end
+
+function calcentropy(x::Array{Int}, xdims::Array{Int, 1}, calc::Array{ASCIIString, 1}, method::ASCIIString, sampling::ASCIIString)
+  xn, xmax = xdims
+  x = atleast2d(x)
+  checkinputs(x, xmax, xn)
+  probs = Dict{ASCIIString, Array{Float64}}("PX" => prob(x, xmax, sampling))
   return requireents(probs, calc)
 end

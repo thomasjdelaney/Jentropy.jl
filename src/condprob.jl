@@ -1,6 +1,6 @@
 # for the condProb function
 
-function condprob(x::Array{Int}, y::Array{Int}, xmax::Int, ymax::Int)
+function condprob(x::Array{Int}, y::Array{Int}, xmax::Int, ymax::Int, sampling::ASCIIString)
 	ny = zeros(Int, ymax)
 	pxy = zeros(xmax, ymax)
 	for i in unique(y) # looping through all the potential Y values
@@ -8,7 +8,7 @@ function condprob(x::Array{Int}, y::Array{Int}, xmax::Int, ymax::Int)
 		ny[find(i .== unique(y))] = length(inds)
 		matching_output = x[inds] # output conditional ensemble
 		if length(matching_output) > 0
-			pxy[:, i+1] = prob(matching_output, xmax)
+			pxy[:, i+1] = prob(matching_output, xmax, sampling)
 		else
 			println("WARNING: Null output conditional ensemble for output = ", string(i))
 		end

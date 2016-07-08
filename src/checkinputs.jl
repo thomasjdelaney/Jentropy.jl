@@ -13,3 +13,8 @@ function checkinputs(x::Array{Int}, y::Array{Int}, xmax::Int, ymax::Int, xn::Int
   size(x)[1] != yn && error("size(y)[1] must equal yn.")
   size(x)[2] != size(y)[2] && error("x and y must have the same nubmer of trials.")
 end
+
+function checkinputs(x::Array{Int}, xmax::Int, xn::Int)
+  maximum(x) >= xmax && error("x values must be between 0 and ", string(xmax), ".")
+  size(x)[1] != xn && error("size(x)[1] must equal xn.")
+end
