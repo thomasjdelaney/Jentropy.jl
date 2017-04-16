@@ -1,7 +1,7 @@
 # For calculating the support (number of non-zero probabilities) from a Bayesian point of view
-
-# P = naive probability distribution
-# N = number of trials
+# Arguments:  P = naive probability distribution
+#             N = number of trials
+# Returns:    
 function bayessupport(P::Array{Float64}, N::Int)
   dim = length(P)
   P_nonzero = P[P .> 0]
@@ -12,4 +12,3 @@ function bayessupport(P::Array{Float64}, N::Int)
     prev_support_delta = dim
     support_delta = abs(support_naive - support_expected)
     xtr = 0.0
-    

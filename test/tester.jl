@@ -2,6 +2,7 @@
 # A package for calculating Shannon's Entropy given to random variables
 # Bias error reduction techniques are also implementable
 
+push!(LOAD_PATH, homedir() * "/Jentropy.jl/src")
 using DataFrames
 using Jentropy
 using Base.Test
@@ -32,3 +33,5 @@ ydims = [length(y), 1 + maximum(y)]
 xdims = [length(x), 1 + maximum(x)]
 retina_ent = calcentropy(x, y, xdims, ydims, ["HX", "HXY"], "plugin", "naive")
 @test (retina_ent["HX"] - retina_ent["HXY"]) ≈ 1
+
+# Shuffle the response and stimulus and add it to the previous stimulus to test multi-trial entropy calculation
