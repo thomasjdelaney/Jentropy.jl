@@ -1,9 +1,12 @@
 isdefined(Base, :__precompile__) && __precompile__()
 
 module Jentropy
+
 using DataFrames
 using StatsBase
+
 export atleast2d,
+  bayessupport,
   calcentropy,
   checkinputs,
   condentropy,
@@ -13,6 +16,7 @@ export atleast2d,
   requireprobs
 
 include("atleast2d.jl")
+include("bayessupport.jl")
 include("calcentropy.jl")
 include("checkinputs.jl")
 include("condentropy.jl")
