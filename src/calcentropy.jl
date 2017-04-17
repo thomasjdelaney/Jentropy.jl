@@ -6,7 +6,7 @@
 #             calc = The entropies to calculate ex: ["HX", "HXY"]
 #             method = sampling bias correction method ex: "pt"
 #             sampling = method for sampling ex: "naive"
-# Returns:
+# Returns:    dictionary, entropies listed in calc => the entropy values 
 
 function calcentropy(x::Array{Int}, y::Array{Int}, xdims::Array{Int, 1}, ydims::Array{Int, 1}, calc::Array{String, 1}, method::String, sampling::String)
   xn, xmax = xdims
