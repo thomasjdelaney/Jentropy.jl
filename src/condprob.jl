@@ -13,7 +13,7 @@ function condprob(x::Array{Int}, y::Array{Int}, xmax::Int, ymax::Int, sampling::
 	for i in unique(y) # looping through all the potential Y values
 		inds = find(i .== y) # the trials where Y = i
 		ny[find(i .== unique(y))] = length(inds)
-		matching_output = x[inds] # output conditional ensemble
+		matching_output = atleast2d(x[inds]) # output conditional ensemble
 		if length(matching_output) > 0
 			pxy[:, i+1] = prob(matching_output, xmax, sampling)
 		else
