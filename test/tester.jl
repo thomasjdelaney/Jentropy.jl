@@ -43,3 +43,12 @@ ydims = [size(y)[1], 1 + maximum(y)];
 calc = ["HX", "HXY"]; method = "plugin"; sampling = "naive";
 retina_ent = calcentropy(x, y, xdims, ydims, calc, method, sampling);
 @test (retina_ent["HX"] - retina_ent["HXY"]) ≈ 1
+
+# testing multi-trial operations with 60-trials
+x = reshape(convert(Array, resp_frame[:raw_count]), (1,60));
+y = reshape(convert(Array, resp_frame[:adj_stimulus]), (1,60));
+xdims = [size(x)[1], 1 + maximum(x)];
+ydims = [size(y)[1], 1 + maximum(y)];
+calc = ["HX", "HXY"]; method = "plugin"; sampling = "naive";
+retina_ent = calcentropy(x, y, xdims, ydims, ["HX", "HXY"], "plugin", "naive");
+@test (retina_ent["HX"] - retina_ent["HXY"]) ≈ 1
