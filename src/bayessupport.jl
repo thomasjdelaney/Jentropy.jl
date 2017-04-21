@@ -1,8 +1,11 @@
-# For calculating the support (number of non-zero probabilities) from a Bayesian point of view
-# Arguments:  probs = naive probability distribution
-#             n_trials = number of trials
-# Returns:
+"""
+bayessupport \\
 
+For calculating the support (number of non-zero probabilities) from a Bayesian point of view  \\
+Arguments:  probs = naive probability distribution \\
+            n_trials = number of trials \\
+Returns:    a bayesian estimate for the support of the probability distribution  \\
+"""
 function bayessupport(probs::Array{Float64}, n_trials::Int)
   dim = length(probs)
   probs_nonzero = probs[probs .> 0]

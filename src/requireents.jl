@@ -1,7 +1,11 @@
-# For calculating the required entropies
-# Arguments:  probs, dictionary of probabilities
-#             calc, the required entropies
-# Returns:    ents, dictionary calc => entropy
+"""
+requireents \\
+
+For calculating the required entropies  \\
+Arguments:  probs, dictionary of probabilities  \\
+            calc, the required entropies  \\
+Returns:    ents, dictionary calc => entropy  \\
+"""
 
 function requireents(probs::Dict{String, Array{Float64}}, calc::Array{String, 1}; base::Int=2)
   ents = Dict{String, Float64}()

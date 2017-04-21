@@ -7,6 +7,7 @@ using StatsBase
 
 export atleast2d,
   bayessupport,
+  decimalise,
   calcentropy,
   checkinputs,
   condentropy,
@@ -17,6 +18,7 @@ export atleast2d,
 
 include("atleast2d.jl")
 include("bayessupport.jl")
+include("decimalise.jl")
 include("calcentropy.jl")
 include("checkinputs.jl")
 include("condentropy.jl")

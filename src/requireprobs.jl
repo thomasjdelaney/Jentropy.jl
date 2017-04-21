@@ -1,17 +1,26 @@
-# For returning the probabilities required to calculate the entropies
-# Arguments:  x = random variable, usually input
-#             y = random variable, usually output/classification
-#             xdims = [length of vector, least upper bound of x (the number of possible values)]
-#             ydims = [length of vector, least upper bound of y (the number of possible values)]
-#             calc = The entropies to calculate ex: ["HX", "HXY"]
-#             method = sampling bias correction method ex: "pt"
-#             sampling = method for sampling ex: "naive"
-# Returns:    probs, dictionary probability string => probabilities
+"""
+requireprobs \\
 
-function requireprobs(x::Array{Int}, xmax::Int, y::Array{Int}, ymax::Int, calc::Array{String, 1}, sampling::String)
+For returning the probabilities required to calculate the entropies \\
+Arguments:  x = random variable, usually input \\
+            xn = number of variables in x \\
+            xmax = the maximum number of possible values across the dimensions in x \\
+            y = random variable, usually output/classification \\
+            yn = number of variables in y \\
+            ymax = the maximum number of possible values across the dimensions in y \\
+            calc = The entropies to calculate ex: ["HX", "HXY"] \\
+            sampling = method for sampling ex: "naive" \\
+Returns:    probs, dictionary probability string => probabilities \\
+"""
+
+function requireprobs(x::Array{Int}, xn::Int, xmax::Int, y::Array{Int}, yn::Int, ymax::Int, calc::Array{String, 1}, sampling::String)
   probs = Dict{String, Array{Float64}}()
-  reduce(|, [in(ent, calc) for ent in ["HXY" "HY"]]) && (probs["PY"] = prob(y, ymax, sampling))
-  reduce(|, [in(ent, calc) for ent in ["HXY" "HX"]]) && (probs["PX"] = prob(x, xmax, sampling))
-  reduce(|, [in(ent, calc) for ent in ["HXY"]]) && (probs["PXY"] = condprob(x, y, xmax, ymax, sampling)[2])
+  dec_x = decimalise(x, xn, xmax)
+  dec_y = decimalise(y, yn, ymax)
+  x_dist_dim = xmax ^ xn # the dimension of the probability distribution required for x
+  y_dist_dim = ymax ^ yn
+  reduce(|, [in(ent, calc) for ent in ["HXY" "HY"]]) && (probs["PY"] = prob(dec_y, y_dist_dim, sampling))
+  reduce(|, [in(ent, calc) for ent in ["HXY" "HX"]]) && (probs["PX"] = prob(dec_x, x_dist_dim, sampling))
+  reduce(|, [in(ent, calc) for ent in ["HXY"]]) && (probs["PXY"] = condprob(dec_x, dec_y, x_dist_dim, y_dist_dim, sampling)[2])
   return probs
 end
