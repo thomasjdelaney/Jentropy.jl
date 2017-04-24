@@ -60,4 +60,4 @@ xdims = [size(x)[1], 1 + maximum(x)];
 ydims = [size(y)[1], 1 + maximum(y)];
 calc = ["HX", "HXY"]; method = "plugin"; sampling = "naive";
 r = calcentropy(x, y, xdims, ydims, calc, method, sampling);
-display(r) # should agree with whatever Python (& Matlab) calculate
+display(r) 

@@ -11,7 +11,7 @@ The pyentropy package package was developed as part of the following research:
     Frontiers in Neuroinformatics 3:4
 
 The Jentropy package allows easy calculation of entropy and mutual information
-given experimental data, using 'plugin' calculation and 'naive' sampling. The package
+given experimental data, using 'plugin' probability calculations and 'naive' sampling. The package
 is particularly useful for neuronal data e.g. spike trains evoked as a response
 to experimental stimuli.
 
