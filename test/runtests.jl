@@ -2,7 +2,6 @@
 # A package for calculating Shannon's Entropy given to random variables
 # Bias error reduction techniques are also implementable
 
-push!(LOAD_PATH, homedir() * "/Jentropy.jl/src")
 using DataFrames
 using Jentropy
 using Base.Test
@@ -60,4 +59,4 @@ xdims = [size(x)[1], 1 + maximum(x)];
 ydims = [size(y)[1], 1 + maximum(y)];
 calc = ["HX", "HXY"]; method = "plugin"; sampling = "naive";
 r = calcentropy(x, y, xdims, ydims, calc, method, sampling);
-display(r) 
+display(r)
